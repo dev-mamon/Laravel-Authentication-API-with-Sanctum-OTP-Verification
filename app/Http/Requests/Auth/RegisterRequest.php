@@ -17,6 +17,7 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
+            'dob' => 'required|string|date_format:Y-m-d',
         ];
     }
 
@@ -30,6 +31,10 @@ class RegisterRequest extends FormRequest
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 8 characters.',
             'password.confirmed' => 'Password confirmation does not match.',
+            'dob.required' => 'Date of Birth is required.',
+            'dob.date_format' => 'Date of Birth must be in Y-m-d format.',
+            'dob.before' => 'Date of Birth must be in the past.',
+            'dob.after' => 'Date of Birth must be in the future.',
         ];
     }
 }

@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\API\Auth\AuthApiController;
-use App\Livewire\Dashboard\Overview;
+use App\Http\Controllers\API\CreativeDesign\CreativeDesignApiController;
+use App\Http\Controllers\API\Fashion\FashionApiController;
+use App\Http\Controllers\API\Finance\FinanceApiController;
+use App\Http\Controllers\API\Journaling\JournalingApiController;
+use App\Http\Controllers\API\Profile\ProfileApiController;
 use Illuminate\Support\Facades\Route;
 
 // Public authentication routes
@@ -17,6 +21,24 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('auth/logout', [AuthApiController::class, 'logoutApi']);
 
-});
+    // journaling routes
+    Route::get('journaling', [JournalingApiController::class, 'index']);
+    Route::post('journal-submit', [JournalingApiController::class, 'submit']);
+    Route::post('journal/share', [JournalingApiController::class, 'generate']);
+    // finance routes
+    Route::get('finances', [FinanceApiController::class, 'index']);
+    Route::post('finances/submit', [FinanceApiController::class, 'submit']);
+    Route::post('finances/share', [FinanceApiController::class, 'generate']);
 
-Route::get('dashboard', Overview::class)->name('dashboard');
+    // Creative Design routes
+    Route::get('creative-design', [CreativeDesignApiController::class, 'index']);
+    Route::post('creative-design/submit', [CreativeDesignApiController::class, 'submit']);
+    Route::post('creative-design/share', [CreativeDesignApiController::class, 'generate']);
+
+    // update profile
+    Route::post('update-profile', [ProfileApiController::class, 'updateProfile']);
+    Route::post('update-password', [ProfileApiController::class, 'updatePassword']);
+    Route::post('delete-account', [ProfileApiController::class, 'deleteAccount']);
+    // get fashion
+    Route::get('fashion', [FashionApiController::class, 'index']);
+});

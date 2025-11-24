@@ -27,7 +27,7 @@ class LoginResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'user_type' => $this->user_type ?? 'N/A',
+            'dob' => $this->dob ?? 'N/A',
             'is_verified' => $this->is_verified ?? false,
             'verified_at' => $this->verified_at instanceof \Carbon\Carbon
                 ? $this->verified_at->toDateTimeString()

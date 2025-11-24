@@ -2,36 +2,26 @@
 
 namespace App\Helpers;
 
-use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class Helper
 {
-
-    public static function uploadFile($folderName, $file, $fileName = null): string
+    public static function uploadFile($folder, $file): string
     {
-        // Ensure folder exists
-        $uploadPath = public_path('uploads/' . $folderName);
-        if (!file_exists($uploadPath)) {
-            mkdir($uploadPath, 0755, true);
-        }
+        $path = public_path("uploads/$folder");
+        File::ensureDirectoryExists($path);
 
-        // Generate file name if not provided
-        $fileName = $fileName ?? time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+        $name = time().'_'.Str::random(8).'.'.$file->getClientOriginalExtension();
 
-        // Move file to public folder
-        $file->move($uploadPath, $fileName);
+        File::move($file->getRealPath(), "$path/$name");
 
-        // Return relative path for URL usage
-        return 'uploads/' . $folderName . '/' . $fileName;
+        return "uploads/$folder/$name";
     }
 
-    /**
-     * Delete a file from public/uploads
-     */
     public static function deleteFile(?string $filePath): bool
     {
-        if (!$filePath) {
+        if (! $filePath) {
             return false; // nothing to delete
         }
 
@@ -45,7 +35,6 @@ class Helper
         return false;
     }
 
-
     /**
      * Generate a public URL for the uploaded file
      */
@@ -55,7 +44,6 @@ class Helper
         if (empty($filePath) || trim($filePath) === '') {
             return null;
         }
-
         $fullPath = public_path($filePath);
 
         // Only return URL if file actually exists

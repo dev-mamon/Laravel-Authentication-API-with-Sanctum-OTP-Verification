@@ -35,6 +35,7 @@ class AuthApiController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'dob' => $request->dob,
                 'password' => Hash::make($request->password),
             ]);
 

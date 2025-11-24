@@ -17,7 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('user_type', ['admin', 'seeker', 'spiritual_guide']);
+            $table->string('dob')->nullable();
+            $table->enum('user_type', ['admin', 'user']);
+            $table->string('phone')->nullable();
+            $table->string('avatar')->nullable();
 
             // Password reset
             $table->string('reset_password_token', 80)->nullable();

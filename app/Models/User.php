@@ -21,7 +21,9 @@ class User extends Authenticatable
         'verified_at',
         'reset_password_token',
         'reset_password_token_expire_at',
-        'phone_number',
+        'dob',
+        'phone',
+        'avatar',
         'otp',
         'purpose',
         'expires_at',
@@ -47,13 +49,17 @@ class User extends Authenticatable
         return $this->hasOne(Otp::class)->latestOfMany();
     }
 
-    public function badgeCompletes()
+    public function journals()
     {
-        return $this->hasMany(BadgeComplete::class);
+        return $this->belongsToMany(Journaling::class, 'journal_users', 'user_id', 'journaling_id')
+            ->withPivot('is_submitted', 'content')
+            ->withTimestamps();
     }
 
-    public function stackCounts()
+    public function finances()
     {
-        return $this->hasMany(StackCount::class);
+        return $this->belongsToMany(Finance::class, 'user_finances')
+            ->withPivot(['is_submitted', 'allowance', 'expenses', 'save_amount', 'content'])
+            ->withTimestamps();
     }
 }
